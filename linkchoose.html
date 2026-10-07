@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ap lucas 2</title>
+
+  <style>
+    :root {
+      --background: #101010;
+      --surface: #171717;
+      --surface-hover: #202020;
+      --text: #f2f2f2;
+      --muted: #929292;
+      --border: #303030;
+      --border-strong: #505050;
+      --accent: #ffffff;
+      --radius: 18px;
+      --max-width: 760px;
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: dark;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        var(--background);
+      background-size: 42px 42px;
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(100% - 32px, var(--max-width));
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 32px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.65);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 0;
+    }
+
+    .intro {
+      max-width: 650px;
+      margin-bottom: 46px;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 680px;
+      margin: 0;
+      font-size: clamp(3rem, 9vw, 6.8rem);
+      line-height: 0.92;
+      letter-spacing: -0.075em;
+      font-weight: 800;
+    }
+
+    .description {
+      max-width: 480px;
+      margin: 26px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.65;
+    }
+
+    .link-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .link-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 84px;
+      padding: 18px 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(23, 23, 23, 0.88);
+      text-decoration: none;
+      transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+    }
+
+    .link-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        110deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.07),
+        transparent 75%
+      );
+      transform: translateX(-100%);
+      transition: transform 500ms ease;
+      pointer-events: none;
+    }
+
+    .link-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      background: var(--surface-hover);
+    }
+
+    .link-card:hover::after {
+      transform: translateX(100%);
+    }
+
+    .link-card:active {
+      transform: translateY(-1px);
+    }
+
+    .link-card:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .link-info {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .link-number {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .link-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 1.12rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .link-path {
+      margin-top: 4px;
+      overflow: hidden;
+      color: var(--muted);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.72rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .arrow {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 1.4rem;
+      transition:
+        color var(--transition),
+        transform var(--transition);
+    }
+
+    .link-card:hover .arrow {
+      color: var(--text);
+      transform: translateX(4px);
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 24px, var(--max-width));
+        padding: 20px 0;
+      }
+
+      main {
+        padding: 70px 0;
+      }
+
+      .intro {
+        margin-bottom: 34px;
+      }
+
+      .link-card {
+        min-height: 76px;
+        padding: 16px;
+      }
+
+      .link-info {
+        gap: 12px;
+      }
+
+      .link-number {
+        width: 30px;
+        height: 30px;
+        flex-basis: 30px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="topbar">
+      <span>Jiahwdh Links</span>
+      <span class="status">Online directory</span>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Selected destinations</p>
+        <h1 id="page-title">Choose your link.</h1>
+        <p class="description">
+          A small, focused directory for quickly opening the available pages.
+        </p>
+      </section>
+
+      <nav class="link-list" id="link-list" aria-label="Available links">
+        <!-- Links are inserted here by JavaScript -->
+      </nav>
+    </main>
+
+    <footer>
+      <span>© 2026 Directory</span>
+      <span>Monochrome edition</span>
+    </footer>
+  </div>
+
+  <script>
+    const repositoryBase =
+      "https://cdn.jsdelivr.net/gh/dirextory/jiahwdhlinks@main/";
+
+    const links = [
+      {
+        name: "Bull",
+        file: "bull.html"
+      },
+      {
+        name: "Aether",
+        file: "aether.html"
+      },
+      {
+        name: "GN-Math",
+        file: "gn.html"
+      }
+    ];
+
+    const linkList = document.querySelector("#link-list");
+
+    links.forEach((link, index) => {
+      const anchor = document.createElement("a");
+      anchor.className = "link-card";
+      anchor.href = `${repositoryBase}${link.file}`;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+      anchor.setAttribute("aria-label", `Open ${link.name}`);
+
+      anchor.innerHTML = `
+        <span class="link-info">
+          <span class="link-number">${String(index + 1).padStart(2, "0")}</span>
+          <span>
+            <span class="link-name">${link.name}</span>
+            <span class="link-path">${link.file}</span>
+          </span>
+        </span>
+        <span class="arrow" aria-hidden="true">→</span>
+      `;
+
+      linkList.appendChild(anchor);
+    });
+  </script>
+</body>
+</html>
